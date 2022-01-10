@@ -1,0 +1,69 @@
+// Default Binding
+
+function foo(){
+    console.log(this.a); // Find a from global scope
+}
+
+var a=2;
+foo();
+
+// this keyword always points to callsite
+
+//Implicit Binding
+function foo(){
+    console.log(this.a); // ----> global.a ----> //Error
+}
+
+const obj={  //---> this keyword will point to this object
+    a:2,
+    foo:foo
+}
+
+obj.foo();
+
+// The function is called in global space
+// Obj is the one calling Function;
+
+const bar= obj.foo;
+bar();
+
+//Explicit Binding
+
+let name1={
+    firstname:"Vanshu",
+    lastname:"Hassija",
+    printFullName:function(homeTown,state){
+        console.log(this.firstname+" "+this.lastname+" "+homeTown+"statewise"+state);
+    }
+}
+
+let name2={
+    firstname:"Sachin",
+    lastname:"Tendulkar"
+}
+
+// this keyword should always point to name 2 object no matter what
+
+name1.printFullName();  // Sachin Tendulkar
+//Call
+name1.printFullName.call(name2, "Patiala", "Punjab"); // To what object should this keyword point to? 
+//Apply
+name1.printFullName.apply(name2, ["Patiala","Punjab"]);
+//Bind
+const printMyName=name1.printFullName.bind(name2);
+// We create a copy of the function with explicit binding of this
+printMyName("Patiala","Punjab");
+
+// New Binding
+//1. A new Object is created
+//2. This keyword now points to newly created Object
+
+function foo(a,b){
+    this.a=a; //fooObject.a=a
+    this.b=b; //fooObject.b=b;
+}
+
+const fooObject=new foo(2,3); // fooObject is an Object
+// This Keyword will now Point to fooObject variable
+
+console.log(fooObject.a); //2
